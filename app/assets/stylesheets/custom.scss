@@ -57,7 +57,7 @@ p {
   margin-right: 10px;
   font-size: 1.7em;
   color: #fff;
-  text-transform: uppercase;
+  text-transform: uppercase;/*text-transformプロパティは、大文字・小文字・全角文字への変換を指定する際に使用 今回は全て大文字にする */
   letter-spacing: -1px;
   padding-top: 9px;
   font-weight: bold;
@@ -65,5 +65,5 @@ p {
 
 #logo:hover {
   color: #fff;
-  text-decoration: none;
+  text-decoration: none;/*text-decorationとはテキストの装飾を指定するプロパティ　今回は装飾なし*/
 }
