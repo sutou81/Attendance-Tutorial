@@ -3,11 +3,11 @@
     navbar-inverse:ナビバーの色をを反転（黒色）する　-->
     <header class="navbar navbar-fixed-top navbar-inverse">
       <div class="container">
-        <%= link_to "Attendance App", '#', id: "logo" %>
+        <%= link_to "Attendance App", root_path, id: "logo" %>
         <nav>
           <ul class="nav navbar-nav navbar-right">
             <li><%= link_to "Top",   root_path %></li>
-            <li><%= link_to "Log in", '#' %></li>
+            <li><%= link_to "Log in", login_path %></li>
           </ul>
         </nav>
       </div>
