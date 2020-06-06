@@ -5,9 +5,14 @@ class UsersController < ApplicationController
   #➁しかしトップページのURLの末尾に ex  users/1/edit と入力するとログインなしで飛べてしまう
   #➂それではセキュリティ上問題があるので各アクションに飛ぶまえにbefore-actionを設定し
   #ログインなしでユーザー情報更新ページへ飛ぶことができるのを回避しようとする為に設定
-  before_action :logged_in_user, only: [:show, :edit, :update]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update]
   #correct_userメソッドを定義し、アクセスしたユーザーが現在ログインしているユーザーであるか確認するよう判定
   before_action :correct_user, only: [:edit, :update]
+  
+  #indexの中身詳細:勤怠8章8.4.2参照
+  def index
+    @users = User.paginate(page: params[:page])
+  end
   
   def show
   end
@@ -54,7 +59,7 @@ class UsersController < ApplicationController
     
     # ログイン済みのユーザーか確認します。
     # logged_in?:sessions_helper.rbにメソッド詳細記述あり　勤怠7.1.3参照
-      #上記の補足 unless logged_in?は現在ログインしていないのユーザーだった場合下記を実行
+      #上記の補足 unless logged_in?は現在ログインしていないユーザーだった場合下記を実行
     def logged_in_user
   unless logged_in?
     store_location

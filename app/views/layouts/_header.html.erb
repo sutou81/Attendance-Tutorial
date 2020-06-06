@@ -8,7 +8,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Top", root_path %></li>
         <% if logged_in? %>
-          <li><%= link_to "Users", '#' %></li>
+          <li><%= link_to "Users", users_path %></li>
           <li class="dropdown"> <!-- dropdown(dropdown-toggleも)はドロップダウンリストを作成するbootstrap -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <!-- aタグ：リンクを貼る -->
               Account <b class="caret"></b>
