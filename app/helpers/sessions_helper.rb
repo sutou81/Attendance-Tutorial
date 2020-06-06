@@ -40,8 +40,31 @@ module SessionsHelper
     end
   end
 
+   # 渡されたユーザーがログイン済みのユーザーであればtrueを返します。
+    def current_user?(user)
+      user == current_user    
+    end
+    
   # 現在ログイン中のユーザーがいればtrue、そうでなければfalseを返します。
   def logged_in?
     !current_user.nil?
+  end
+  
+  # 記憶しているURL(またはデフォルトURL)にリダイレクトします。
+  def redirect_back_or(default_url)
+    redirect_to(session[:fowarding_url] || default_url)
+    session.delete(:fowarding_url)
+    #session～の補足：ここで記憶したURLを削除しておかないと、次回ログインした時にも記憶され
+    #上記の続き：ているURLへ転送されてしまいます。この状態がブラウザを閉じるまで続いてしまうわけです。
+  end
+  
+  # アクセスしようとしたURLを記憶します。
+  def store_location
+    # ↓のrequest説明:現在のURLの情報を知りたい時に
+    #上記の続き：Ruby on Railsでは、各種URLを取得する方法が用意されています。
+    #続き2：requestオブジェクト（requestオブジェクトをビューかコントローラ内のコードで使うと）取得できます
+    #続き3：original.urlで現在のURLを全部格納できる
+    #参照：https://techacademy.jp/magazine/31188
+    session[:fowarding_url] = request.original_url if request.get? #ページへのアクセスのみを記憶するためrequest.get?を条件式に指定してGETリクエストのみを記憶するように記述
   end
 end
