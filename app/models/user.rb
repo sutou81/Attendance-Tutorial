@@ -9,6 +9,13 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 100 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true    
+  # ↓ allow_nilとallow_blankの違い(https://pikawaka.com/rails/validation 参照)
+  # allow_nil:値がnilの場合、検証を行わなくすることができます。
+  # allow_blank:nilや空文字など値がblank?に該当する場合、検証を行わなくすることができます。
+  # 2つの違い:allow_nilと似ていますが、allow_nilは空文字を入力した場合（フォームに何も入力しなかった場合）は検証をしてしまいますが、allow_blankだと検証をスキップさせることができます
+  # *テキストでの説明:この設定では、値が空文字""の場合バリデーションをスルーします
+  # *上記の追加説明:これは存在性の検証を入れていないことから、空の状態で送信し、2文字上の検証に引っかからないようにするために追加しました。
+  validates :department, length: { in: 2..30 }, allow_blank: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil:true
 

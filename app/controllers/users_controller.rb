@@ -53,7 +53,7 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
     end
 
     # beforeフィルター(logged_in_userメソッドはprivateキーワード下に定義しました)

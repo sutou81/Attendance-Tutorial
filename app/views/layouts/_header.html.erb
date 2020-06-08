@@ -9,7 +9,7 @@
         <li><%= link_to "ホーム", root_path %></li>
         <% if logged_in? %>
           <li><%= link_to "全てのユーザー", users_path %></li>
-          <li class="dropdown">"> <!-- dropdown(dropdown-toggleも)はドロップダウンリストを作成するbootstrap -->
+          <li class="dropdown"> <!-- dropdown(dropdown-toggleも)はドロップダウンリストを作成するbootstrap -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><!-- aタグ：リンクを貼る -->
               メニュー <b class="caret"></b>
             </a>
