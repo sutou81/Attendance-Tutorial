@@ -8,7 +8,7 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 100 },
                     format: { with: VALID_EMAIL_REGEX },
-                    uniqueness: true    
+                    uniqueness: true
   # ↓ allow_nilとallow_blankの違い(https://pikawaka.com/rails/validation 参照)
   # allow_nil:値がnilの場合、検証を行わなくすることができます。
   # allow_blank:nilや空文字など値がblank?に該当する場合、検証を行わなくすることができます。
@@ -16,6 +16,8 @@ class User < ApplicationRecord
   # *テキストでの説明:この設定では、値が空文字""の場合バリデーションをスルーします
   # *上記の追加説明:これは存在性の検証を入れていないことから、空の状態で送信し、2文字上の検証に引っかからないようにするために追加しました。
   validates :department, length: { in: 2..30 }, allow_blank: true
+  validates :basic_time, presence: true
+  validates :work_time, presence: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil:true
 
