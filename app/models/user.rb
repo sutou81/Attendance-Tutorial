@@ -1,4 +1,9 @@
 class User < ApplicationRecord
+  # ↓の説明:Userモデルからみた場合、その関係は1（User）対多（Attendance）となります
+  # 続き:多数所持するため、複数形（attendances）となっている点もポイント
+  # 続き:userが親で、attendancesが子という関係
+  # 続き:dependent: :destroy→ユーザーが削除された場合、関連する勤怠データも同時に自動で削除されるよう設定
+  has_many :attendances, dependent: :destroy
   # 「remember_token」という仮想の属性を作成します。
   attr_accessor :remember_token
   before_save { self.email = email.downcase }
