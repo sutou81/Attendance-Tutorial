@@ -9,14 +9,16 @@ class UsersController < ApplicationController
   #correct_userメソッドを定義し、アクセスしたユーザーが現在ログインしているユーザーであるか確認するよう判定
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info]
+  before_action :set_one_month, only: :show
   #indexの中身詳細:勤怠8章8.4.2参照
   def index
     @users = User.paginate(page: params[:page])
   end
   
   def show
+   
   end
-
+  
   def new
     @user = User.new
   end
