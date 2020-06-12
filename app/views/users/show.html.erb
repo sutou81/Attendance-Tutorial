@@ -41,8 +41,14 @@
         <tr>
           <td><%= l(day.worked_on, format: :short) %></td>
           <td><%= $days_of_the_week[day.worked_on.wday] %></td>
-          <td></td>
-          <td></td>
+          <td>
+            <!-- 繰り返し処理中の日付と、実際の日付における当日が一致することを条件とし、さらに該当する日付データにはstarted_atがnilであるか？を評価しています。
+            どちらもtrueとなる時のみ、ボタンの出力部分が実行されます -->
+            <% if (Date.current == day.worked_on) && day.started_at.nil? %>
+              <%= link_to "出勤登録", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
+            <% end %>
+          </td>
+          <td><%= l(day.started_at, format: :time) if day.started_at.present? %></td>
           <td></td>
           <td></td>
           <td></td>

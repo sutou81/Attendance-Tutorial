@@ -15,5 +15,7 @@ Rails.application.routes.draw do
       get 'edit_basic_info'
       patch 'update_basic_info'
     end
+    # AttendancesリソースとしてはupdateアクションのみでOKです。
+    resources :attendances, only: :update # この行を追加します。
   end
 end
