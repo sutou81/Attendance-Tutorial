@@ -50,12 +50,37 @@
           <td><%= l(day.finished_at, format: :time) if day.finished_at.present? %></td>
           <td><!-- started_atとfinished_atの値が存在するかを判定するもの。在社時間を計算するためには上記どちらの値も必須 -->
             <% if day.started_at.present? && day.finished_at.present? %>
-              <%= working_times(day.started_at, day.finished_at) %>
+              <%= str_times = working_times(day.started_at, day.finished_at) %>
+              <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
             <% end %>
           </td>
           <td></td>
         </tr>
       <% end %>
     </tbody>
+    
+    <tfoot>
+      <!--rowspan:縦結合、colspan：横結合-->
+      <tr>
+        <td colspan="2">累計日数</td>
+        <td colspan="2">総合勤務時間</td>
+        <td colspan="2">累計在社時間</td>
+        <td rowspan="2"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><%= @attendances.count %></td>
+        <!-- ↓の説明：式の右側の@worked_sumの値はそのまま使用できるのですが
+        　左側に関してはそのままだとうまく計算されません。
+        　format_basic_infoでの戻り値がStringクラスになるためです
+        　to_fメソッドは、文字列を浮動小数点数とみなしてFloatオブジェクトに変換します。
+        　要するにto_iメソッド（文字列から整数に変換）の小数点付きバージョンです。
+        　basic_infoはusers_helper.rb参照 -->
+        <td colspan="2"><%= format_basic_info(@user.work_time).to_f * @worked_sum %></td>
+        <td colspan="2"><%= format("%.2f", @total_working_times.to_f) %></td>
+      </tr>
+    </tfoot>    
+    
+    
+    
   </table>
 </div>
