@@ -48,7 +48,11 @@
           </td>
           <td><%= l(day.started_at, format: :time) if day.started_at.present? %></td>
           <td><%= l(day.finished_at, format: :time) if day.finished_at.present? %></td>
-          <td></td>
+          <td><!-- started_atとfinished_atの値が存在するかを判定するもの。在社時間を計算するためには上記どちらの値も必須 -->
+            <% if day.started_at.present? && day.finished_at.present? %>
+              <%= working_times(day.started_at, day.finished_at) %>
+            <% end %>
+          </td>
           <td></td>
         </tr>
       <% end %>
