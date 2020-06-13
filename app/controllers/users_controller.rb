@@ -15,8 +15,9 @@ class UsersController < ApplicationController
     @users = User.paginate(page: params[:page])
   end
   
+  # 1ヶ月分の勤怠データの中で、出勤時間が何も無い状態では無いものの数を代入
   def show
-   
+   @worked_sum = @attendances.where.not(started_at: nil).count
   end
   
   def new
