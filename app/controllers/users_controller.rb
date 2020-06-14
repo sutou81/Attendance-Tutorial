@@ -71,6 +71,8 @@ class UsersController < ApplicationController
     # ↓Strong Parametersを用いることで、必須となるパラメータと許可されたパラメータを指定することができます。
     # つまり下記の様に指定することにより、下記のカラムのみデータが取得できる
     # (他の重要なカラムは取得できないようにする)
+    # ストロングパラメータとは、RailsでDBを更新する際に、不要なパラメータを取り除く(必要なパラメータだけに絞り込む)ための仕組みです。
+    # ストロングパラメータを使うことで、本来ユーザーから送られてくることのないパラメータが存在していたとしても、それを取り除いて安全にDBの更新を行うことができます。
     def user_params
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
     end
@@ -79,34 +81,4 @@ class UsersController < ApplicationController
       params.require(:user).permit(:department, :basic_time, :work_time)
     end
     
-
-    # beforeフィルター(logged_in_userメソッドはprivateキーワード下に定義しました)
-
-    # paramsハッシュからユーザーを取得します。
-    def set_user
-      @user = User.find(params[:id])
-    end
-    
-    # ログイン済みのユーザーか確認します。
-    # logged_in?:sessions_helper.rbにメソッド詳細記述あり　勤怠7.1.3参照
-      #上記の補足 unless logged_in?は現在ログインしていないユーザーだった場合下記を実行
-    def logged_in_user
-  unless logged_in?
-    store_location
-    flash[:danger] = "ログインしてください。"
-    redirect_to login_url
-    end
-  end
-   
-    
-    # アクセスしたユーザーが現在ログインしているユーザーか確認します。
-    def correct_user
-      redirect_to(root_url) unless current_user?(@user)
-    end
-    
-    # システム管理権限所有かどうか判定します。
-    def admin_user
-      redirect_to root_url unless current_user.admin?
-      
-    end
 end

@@ -7,9 +7,39 @@ class ApplicationController < ActionController::Base
   # $変数名 →グローバル変数 グローバル変数は極端に言うとプログラムのどこからでも呼び出すことのできる変数で
   $days_of_the_week = %w{日 月 火 水 木 金 土}
   
-   # ページ出力前に1ヶ月分のデータの存在を確認・セットします。
-   # 実行する内容(one_month.each文)　1ヵ月分の日付が繰り返されて実行されており、createメソッドによってworked_onに日付の値が入ったAttendanceモデルにデータが生成される
+  # beforeフィルター(logged_in_userメソッドはprivateキーワード下に定義しました)
+
+    # paramsハッシュからユーザーを取得します。
+    def set_user
+      @user = User.find(params[:id])
+    end
+    
+    # ログイン済みのユーザーか確認します。
+    # logged_in?:sessions_helper.rbにメソッド詳細記述あり　勤怠7.1.3参照
+    #上記の補足 unless logged_in?は現在ログインしていないユーザーだった場合下記を実行
+    def logged_in_user
+      unless logged_in?
+       store_location
+       flash[:danger] = "ログインしてください。"
+       redirect_to login_url
+      end
+    end
    
+    
+    # アクセスしたユーザーが現在ログインしているユーザーか確認します。
+    def correct_user
+      redirect_to(root_url) unless current_user?(@user)
+    end
+    
+    # システム管理権限所有かどうか判定します。
+    def admin_user
+      redirect_to root_url unless current_user.admin?
+      
+    end
+  
+  
+   # ↓ページ出力前に1ヶ月分のデータの存在を確認・セットします。
+   # 実行する内容(one_month.each文)　1ヵ月分の日付が繰り返されて実行されており、createメソッドによってworked_onに日付の値が入ったAttendanceモデルにデータが生成される
   def set_one_month 
     @first_day = params[:date].nil? ?
     Date.current.beginning_of_month : params[:date].to_date
